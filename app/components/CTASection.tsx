@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function CTASection() {
   return (
     <section className="py-24 relative overflow-hidden">
@@ -22,12 +24,12 @@ export default function CTASection() {
           >
             View Products
           </a>
-          <a 
-            href="#contact" 
+          <Link 
+            href="/contact" 
             className="btn btn-white transform hover:scale-105"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
       </div>
     </section>

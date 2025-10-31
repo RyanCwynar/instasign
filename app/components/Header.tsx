@@ -8,21 +8,23 @@ export default function Header() {
       <nav className="container mx-auto px-6 py-3">
         <div className="flex items-center">
           <div className="flex items-center flex-1">
-            <Image
-              src="/logo.svg"
-              alt="InstaSIGN Logo"
-              width={200}
-              height={67}
-              priority
-              className="h-12 w-auto"
-            />
+            <a href="/">
+              <Image
+                src="/logo.svg"
+                alt="InstaSIGN Logo"
+                width={200}
+                height={67}
+                priority
+                className="h-12 w-auto"
+              />
+            </a>
           </div>
           <div className="hidden md:flex items-center gap-8 justify-center flex-1">
-            <a href="#home" className="hover:text-gray-200 transition-colors font-medium">Home</a>
-            <a href="#products" className="hover:text-gray-200 transition-colors font-medium">Products</a>
-            <a href="#about" className="hover:text-gray-200 transition-colors font-medium">About</a>
-            <a href="#customers" className="hover:text-gray-200 transition-colors font-medium">Customers</a>
-            <a href="#contact" className="hover:text-gray-200 transition-colors font-medium">Contact</a>
+            <a href="/" className="hover:text-gray-200 transition-colors font-medium">Home</a>
+            <a href="/#products" className="hover:text-gray-200 transition-colors font-medium">Products</a>
+            <a href="/#about" className="hover:text-gray-200 transition-colors font-medium">About</a>
+            <a href="/#customers" className="hover:text-gray-200 transition-colors font-medium">Customers</a>
+            <a href="/contact" className="hover:text-gray-200 transition-colors font-medium">Contact</a>
             <a 
               href="#order" 
               className="btn btn-primary"
