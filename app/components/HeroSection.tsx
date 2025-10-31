@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ContactModal from "./ContactModal";
 
 export default function HeroSection() {
   return (
@@ -33,12 +34,11 @@ export default function HeroSection() {
             >
               Browse Products
             </a>
-            <a 
-              href="#contact" 
-              className="btn btn-white"
-            >
-              Get a Quote
-            </a>
+            <ContactModal>
+              <button className="btn btn-white cursor-pointer">
+                Get a Quote
+              </button>
+            </ContactModal>
           </div>
         </div>
       </div>
