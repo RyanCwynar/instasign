@@ -24,9 +24,8 @@ export default function Header() {
             <a href="/products" className="hover:text-gray-200 transition-colors font-medium">Products</a>
             <a href="/#about" className="hover:text-gray-200 transition-colors font-medium">About</a>
             <a href="/#customers" className="hover:text-gray-200 transition-colors font-medium">Customers</a>
-            <a href="/contact" className="hover:text-gray-200 transition-colors font-medium">Contact</a>
             <a 
-              href="#order" 
+              href="/contact" 
               className="btn btn-primary"
             >
               Order Now
