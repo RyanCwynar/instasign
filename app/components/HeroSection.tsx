@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import ContactModal from "./ContactModal";
 
 export default function HeroSection() {
@@ -28,12 +29,12 @@ export default function HeroSection() {
             Delray Beach, Boca Raton and Boynton Beach since <strong className="font-semibold">1986</strong>.
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a 
-              href="#products" 
+            <Link 
+              href="/products" 
               className="btn btn-primary"
             >
               Browse Products
-            </a>
+            </Link>
             <ContactModal>
               <button className="btn btn-white cursor-pointer">
                 Get a Quote

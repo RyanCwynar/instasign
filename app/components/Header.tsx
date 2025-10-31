@@ -21,7 +21,7 @@ export default function Header() {
           </div>
           <div className="hidden md:flex items-center gap-8 justify-center flex-1">
             <a href="/" className="hover:text-gray-200 transition-colors font-medium">Home</a>
-            <a href="/#products" className="hover:text-gray-200 transition-colors font-medium">Products</a>
+            <a href="/products" className="hover:text-gray-200 transition-colors font-medium">Products</a>
             <a href="/#about" className="hover:text-gray-200 transition-colors font-medium">About</a>
             <a href="/#customers" className="hover:text-gray-200 transition-colors font-medium">Customers</a>
             <a href="/contact" className="hover:text-gray-200 transition-colors font-medium">Contact</a>

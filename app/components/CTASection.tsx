@@ -18,12 +18,12 @@ export default function CTASection() {
           Get started today and join thousands of satisfied customers who trust InstaSIGN for all their signage needs.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="#products" 
+          <Link 
+            href="/products" 
             className="btn btn-primary transform hover:scale-105"
           >
             View Products
-          </a>
+          </Link>
           <Link 
             href="/contact" 
             className="btn btn-white transform hover:scale-105"
