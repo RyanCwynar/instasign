@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LocationMapModal from "./LocationMapModal";
 
 export default function Header() {
   return (
@@ -29,8 +30,24 @@ export default function Header() {
               Order Now
             </a>
           </div>
-          <div className="flex items-center justify-end">
-            <button className="md:hidden text-white">
+          <div className="hidden md:flex items-center gap-6">
+            <LocationMapModal position="bottom-left">
+              <a 
+                href="https://maps.google.com/?q=155+Avenue+L,+Delray+Beach,+FL+33483" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-gray-200 transition-colors"
+                aria-label="View location on map"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </a>
+            </LocationMapModal>
+          </div>
+          <div className="flex items-center justify-end md:hidden">
+            <button className="text-white">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
