@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InstaSIGN
 
-## Getting Started
+Professional custom signage company serving Palm Beach County, Florida since 1986.
 
-First, run the development server:
+🌐 **Website:** [instasign.com](https://instasign.com)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## About
+
+InstaSIGN specializes in custom signs, vehicle wraps, banners, and commercial signage for businesses throughout South Florida. From storefronts to fleet graphics, we deliver quality craftsmanship with fast turnaround times.
+
+## Services
+
+- **Custom Signs** - Business signage, dimensional letters, lobby signs
+- **Vehicle Wraps** - Cars, trucks, vans, fleet graphics
+- **Banners** - Vinyl banners, event signage, trade show displays
+- **Building Signs** - Channel letters, monument signs, exterior signage
+- **Real Estate Signs** - Yard signs, directional signs, for sale signs
+- **LED & Neon Signs** - Illuminated signage, open signs
+- **Window Graphics** - Storefront graphics, privacy film, vehicle windows
+
+## Project Structure
+
+```
+app/
+├── page.tsx              # Homepage
+├── contact/              # Contact page
+├── products/             # Products showcase
+├── services/             # SEO landing pages
+│   ├── [service]/        # Service pages (signs, banners, vehicle-wrap, etc.)
+│   │   └── [location]/   # Location-specific pages (boca-raton, delray-beach, etc.)
+├── components/           # Reusable UI components
+├── sitemap.ts            # Auto-generated sitemap
+└── robots.ts             # Robots.txt config
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## SEO Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The site uses programmatic SEO to generate location-specific service pages. Pages are auto-generated from a keyword database and follow the pattern:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/services/signs` - General signs page
+- `/services/signs/boca-raton` - Signs in Boca Raton
+- `/services/vehicle-wrap/west-palm-beach` - Vehicle wraps in West Palm Beach
 
-## Learn More
+### Current Coverage
 
-To learn more about Next.js, take a look at the following resources:
+**Services:** signs, banners, vehicle-wrap, building-signs, neon-signs, led-signs, real-estate-signs, window-graphics
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Locations:** Delray Beach, Boca Raton, Boynton Beach, West Palm Beach, Lake Worth, Wellington, Jupiter, Palm Beach Gardens
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+- **Framework:** Next.js 16 (App Router)
+- **Styling:** Tailwind CSS
+- **Deployment:** Vercel
+- **Analytics:** Vercel Analytics
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+## Deployment
+
+Push to `main` branch triggers automatic deployment via Vercel.
+
+## License
+
+© 2026 InstaSIGN. All rights reserved.
