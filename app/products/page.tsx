@@ -1,6 +1,20 @@
+import { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ContactModal from "../components/ContactModal";
+
+export const metadata: Metadata = {
+  title: "Sign Products & Services",
+  description: "Custom banners, vehicle wraps, channel letters, monument signs, yard signs & more. Professional sign services in Delray Beach, Boca Raton & Palm Beach County.",
+  alternates: {
+    canonical: "/products",
+  },
+  openGraph: {
+    title: "Sign Products & Services | InstaSIGN",
+    description: "Custom banners, vehicle wraps, channel letters, monument signs & more in Palm Beach County.",
+    url: "https://instasign.com/products",
+  },
+};
 
 export default function ProductsPage() {
   const categories = [

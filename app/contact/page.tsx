@@ -1,7 +1,21 @@
+import { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LocationMapModal from "../components/LocationMapModal";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description: "Contact InstaSIGN for custom signs in Delray Beach, Boca Raton & Palm Beach County. Call (561) 685-7335 or visit us at 155 Avenue L, Delray Beach, FL.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact InstaSIGN | Delray Beach Sign Shop",
+    description: "Get in touch for custom signs. Call (561) 685-7335 or visit 155 Avenue L, Delray Beach, FL.",
+    url: "https://instasign.com/contact",
+  },
+};
 
 export default function ContactPage() {
   return (
