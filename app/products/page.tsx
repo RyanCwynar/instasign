@@ -17,6 +17,113 @@ export const metadata: Metadata = {
   },
 };
 
+// Product schema data for structured markup
+const productSchemaData = [
+  { name: "Custom Banners", description: "Large format banners for events, trade shows, and advertising", priceRange: "$50 - $500", category: "Banners & Signs" },
+  { name: "Yard Signs", description: "Affordable yard signs for real estate, events, and advertising", priceRange: "$15 - $75", category: "Outdoor Signs" },
+  { name: "Vehicle Wraps", description: "Professional vehicle wraps and graphics for business branding", priceRange: "$500 - $5000", category: "Vehicle Graphics" },
+  { name: "Channel Letters", description: "Illuminated channel letter signs for storefronts", priceRange: "$1500 - $10000", category: "Building Signs" },
+  { name: "Monument Signs", description: "Permanent monument signs for business entrances", priceRange: "$2500 - $15000", category: "Exterior Signage" },
+  { name: "ADA Compliant Signs", description: "Tactile ADA signs with braille for accessibility compliance", priceRange: "$50 - $300", category: "Interior Signs" },
+  { name: "Window Graphics", description: "Custom window decals and graphics for storefronts", priceRange: "$100 - $1000", category: "Window Signs" },
+  { name: "A-Frame Signs", description: "Portable sidewalk signs for restaurants and retail", priceRange: "$75 - $250", category: "Point of Purchase" },
+  { name: "Real Estate Signs", description: "Professional real estate signs for agents and brokers", priceRange: "$25 - $150", category: "Real Estate" },
+  { name: "Menu Boards", description: "Custom menu boards for restaurants and cafes", priceRange: "$100 - $500", category: "Restaurant Signs" },
+];
+
+// Generate JSON-LD for products
+function generateProductSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "InstaSIGN Products & Services",
+    "description": "Custom signs, banners, vehicle wraps, and business signage in Palm Beach County",
+    "url": "https://instasign.com/products",
+    "numberOfItems": productSchemaData.length,
+    "itemListElement": productSchemaData.map((product, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Product",
+        "name": product.name,
+        "description": product.description,
+        "category": product.category,
+        "brand": {
+          "@type": "Brand",
+          "name": "InstaSIGN"
+        },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "USD",
+          "priceRange": product.priceRange,
+          "availability": "https://schema.org/InStock",
+          "seller": {
+            "@type": "LocalBusiness",
+            "name": "InstaSIGN",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "155 Avenue L",
+              "addressLocality": "Delray Beach",
+              "addressRegion": "FL",
+              "postalCode": "33483"
+            }
+          }
+        }
+      }
+    }))
+  };
+}
+
+// Service schema
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://instasign.com/#business",
+  "name": "InstaSIGN",
+  "image": "https://instasign.com/logo.svg",
+  "url": "https://instasign.com",
+  "telephone": "+1-561-272-2323",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "155 Avenue L",
+    "addressLocality": "Delray Beach",
+    "addressRegion": "FL",
+    "postalCode": "33483",
+    "addressCountry": "US"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Sign Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Graphic Design",
+          "description": "Professional sign design services"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Sign Installation",
+          "description": "Expert installation services for all signage"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Project Management",
+          "description": "Full-service project management from design to installation"
+        }
+      }
+    ]
+  }
+};
+
 export default function ProductsPage() {
   const categories = [
     {
@@ -182,8 +289,19 @@ export default function ProductsPage() {
   ];
 
   return (
-    <div className="min-h-screen" style={{backgroundColor: 'var(--background)'}}>
-      <Header />
+    <>
+      {/* Product Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateProductSchema()) }}
+      />
+      {/* Service Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <div className="min-h-screen" style={{backgroundColor: 'var(--background)'}}>
+        <Header />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-900 to-gray-800 text-white py-20">
@@ -300,6 +418,7 @@ export default function ProductsPage() {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import { blogPosts, getExcerpt, getReadTime } from "./blog-data";
 
 export const metadata: Metadata = {
   title: "Blog | Sign Industry Tips & Guides",
@@ -17,55 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Blog posts data with images
-const blogPosts = [
-  {
-    slug: "how-much-do-custom-signs-cost-palm-beach",
-    title: "How Much Do Custom Signs Cost in Palm Beach County? (2025 Pricing Guide)",
-    excerpt: "Get a comprehensive breakdown of custom sign pricing in Palm Beach County. Learn what factors affect costs and how to budget for your business signage project.",
-    date: "2025-01-15",
-    category: "Pricing",
-    readTime: "8 min read",
-    image: "/blog/custom-signs-cost-pricing.jpg",
-  },
-  {
-    slug: "best-materials-outdoor-signs-florida-weather",
-    title: "Best Materials for Outdoor Signs in Florida Weather",
-    excerpt: "Discover which sign materials stand up best to Florida's intense sun, humidity, and hurricane season. Expert recommendations from 35+ years of local experience.",
-    date: "2025-01-12",
-    category: "Materials",
-    readTime: "7 min read",
-    image: "/blog/florida-weather-outdoor-signs.jpg",
-  },
-  {
-    slug: "vehicle-wrap-vs-paint-business-advertising",
-    title: "Vehicle Wrap vs Paint: Which is Better for Business Advertising?",
-    excerpt: "Compare the costs, durability, and ROI of vehicle wraps versus custom paint jobs for fleet branding. Make the right choice for your business vehicles.",
-    date: "2025-01-10",
-    category: "Vehicle Wraps",
-    readTime: "9 min read",
-    image: "/blog/vehicle-wrap-advertising.jpg",
-  },
-  {
-    slug: "ada-compliant-signage-requirements-florida",
-    title: "ADA Compliant Signage Requirements in Florida: Complete Guide",
-    excerpt: "Everything you need to know about ADA sign requirements in Florida. Avoid costly fines with this comprehensive compliance checklist.",
-    date: "2025-01-08",
-    category: "Compliance",
-    readTime: "10 min read",
-    image: "/blog/ada-compliance-signage.jpg",
-  },
-  {
-    slug: "channel-letter-signs-business-storefront",
-    title: "Channel Letter Signs: The Ultimate Guide for Business Storefronts",
-    excerpt: "Learn everything about channel letter signs - types, benefits, costs, and installation. Make your storefront stand out with illuminated signage.",
-    date: "2025-01-05",
-    category: "Sign Types",
-    readTime: "8 min read",
-    image: "/blog/channel-letters-storefront.jpg",
-  },
-];
-
 export default function BlogPage() {
   return (
     <>
@@ -74,8 +26,9 @@ export default function BlogPage() {
         {/* Hero Section */}
         <section className="bg-gray-900 text-white py-16">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              InstaSIGN Blog
+            <p className="text-sm uppercase tracking-wider text-gray-400 mb-2">Company Blog</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+              Sign Industry Tips & Guides
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Expert tips, guides, and insights about custom signs and business signage. 
@@ -95,7 +48,7 @@ export default function BlogPage() {
                 >
                   <Link href={`/blog/${post.slug}`} className="block relative h-48">
                     <Image
-                      src={post.image}
+                      src={post.image_path}
                       alt={post.title}
                       fill
                       className="object-cover"
@@ -110,7 +63,7 @@ export default function BlogPage() {
                       >
                         {post.category}
                       </span>
-                      <span className="text-gray-500 text-sm">{post.readTime}</span>
+                      <span className="text-gray-500 text-sm">{getReadTime(post.content)}</span>
                     </div>
                     <h2 className="text-xl font-bold mb-3 text-gray-900 hover:text-[#c05555] transition-colors">
                       <Link href={`/blog/${post.slug}`}>
@@ -118,11 +71,11 @@ export default function BlogPage() {
                       </Link>
                     </h2>
                     <p className="text-gray-600 mb-4 line-clamp-3">
-                      {post.excerpt}
+                      {post.description || getExcerpt(post.content)}
                     </p>
                     <div className="flex items-center justify-between">
                       <time className="text-sm text-gray-500">
-                        {new Date(post.date).toLocaleDateString('en-US', {
+                        {new Date(post.publish_date).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric'
@@ -145,7 +98,7 @@ export default function BlogPage() {
         {/* CTA Section */}
         <section className="py-16 bg-gray-900 text-white">
           <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-4 text-white">
               Ready to Start Your Sign Project?
             </h2>
             <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
