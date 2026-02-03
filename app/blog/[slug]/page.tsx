@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+
+// Blog post featured images
+const blogImages: Record<string, string> = {
+  "how-much-do-custom-signs-cost-palm-beach": "/blog/custom-signs-cost-pricing.jpg",
+  "best-materials-outdoor-signs-florida-weather": "/blog/florida-weather-outdoor-signs.jpg",
+  "vehicle-wrap-vs-paint-business-advertising": "/blog/vehicle-wrap-advertising.jpg",
+  "ada-compliant-signage-requirements-florida": "/blog/ada-compliance-signage.jpg",
+  "channel-letter-signs-business-storefront": "/blog/channel-letters-storefront.jpg",
+};
 
 // Blog post content data
 const blogPosts: Record<string, {
@@ -979,8 +989,10 @@ export function generateStaticParams() {
 }
 
 // Generate metadata for each blog post
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const post = blogPosts[params.slug];
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = blogPosts[slug];
+  const imageUrl = blogImages[slug];
   
   if (!post) {
     return {
@@ -992,26 +1004,29 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     title: post.title,
     description: post.description,
     alternates: {
-      canonical: `/blog/${params.slug}`,
+      canonical: `/blog/${slug}`,
     },
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `https://instasign.com/blog/${params.slug}`,
+      url: `https://instasign.com/blog/${slug}`,
       type: "article",
       publishedTime: post.date,
       authors: ["InstaSIGN"],
+      images: imageUrl ? [{ url: `https://instasign.com${imageUrl}`, width: 1200, height: 630, alt: post.title }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: imageUrl ? [`https://instasign.com${imageUrl}`] : undefined,
     },
   };
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = blogPosts[params.slug];
+export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogPosts[slug];
 
   if (!post) {
     notFound();
@@ -1039,7 +1054,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://instasign.com/blog/${params.slug}`
+      "@id": `https://instasign.com/blog/${slug}`
     }
   };
 
@@ -1081,6 +1096,24 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </section>
+
+        {/* Featured Image */}
+        {blogImages[slug] && (
+          <section className="relative w-full h-[400px] md:h-[500px] -mt-8">
+            <div className="container mx-auto px-6 h-full">
+              <div className="max-w-4xl mx-auto h-full relative rounded-xl overflow-hidden shadow-2xl">
+                <Image
+                  src={blogImages[slug]}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 896px"
+                />
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Article Content */}
         <article className="py-16">
@@ -1127,12 +1160,12 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
               <h2 className="text-2xl font-bold mb-8">More Articles</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {Object.entries(blogPosts)
-                  .filter(([slug]) => slug !== params.slug)
+                  .filter(([postSlug]) => postSlug !== slug)
                   .slice(0, 2)
-                  .map(([slug, relatedPost]) => (
+                  .map(([postSlug, relatedPost]) => (
                     <Link 
-                      key={slug}
-                      href={`/blog/${slug}`}
+                      key={postSlug}
+                      href={`/blog/${postSlug}`}
                       className="block bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors"
                     >
                       <span 
