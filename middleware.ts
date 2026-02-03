@@ -7,8 +7,8 @@ const BLOCKED_COUNTRIES = [
 ];
 
 export function middleware(request: NextRequest) {
-  // Get country from Vercel's geo headers
-  const country = request.geo?.country || request.headers.get('x-vercel-ip-country') || '';
+  // Get country from Vercel's geo headers (geo object removed in Next.js 16)
+  const country = request.headers.get('x-vercel-ip-country') || '';
 
   if (BLOCKED_COUNTRIES.includes(country)) {
     // Return 403 Forbidden
