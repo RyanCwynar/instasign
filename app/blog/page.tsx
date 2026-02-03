@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Blog posts data - in production, this could come from a CMS
+// Blog posts data with images
 const blogPosts = [
   {
     slug: "how-much-do-custom-signs-cost-palm-beach",
@@ -25,6 +26,7 @@ const blogPosts = [
     date: "2025-01-15",
     category: "Pricing",
     readTime: "8 min read",
+    image: "/blog/custom-signs-cost-pricing.jpg",
   },
   {
     slug: "best-materials-outdoor-signs-florida-weather",
@@ -33,6 +35,7 @@ const blogPosts = [
     date: "2025-01-12",
     category: "Materials",
     readTime: "7 min read",
+    image: "/blog/florida-weather-outdoor-signs.jpg",
   },
   {
     slug: "vehicle-wrap-vs-paint-business-advertising",
@@ -41,6 +44,7 @@ const blogPosts = [
     date: "2025-01-10",
     category: "Vehicle Wraps",
     readTime: "9 min read",
+    image: "/blog/vehicle-wrap-advertising.jpg",
   },
   {
     slug: "ada-compliant-signage-requirements-florida",
@@ -49,6 +53,7 @@ const blogPosts = [
     date: "2025-01-08",
     category: "Compliance",
     readTime: "10 min read",
+    image: "/blog/ada-compliance-signage.jpg",
   },
   {
     slug: "channel-letter-signs-business-storefront",
@@ -57,6 +62,7 @@ const blogPosts = [
     date: "2025-01-05",
     category: "Sign Types",
     readTime: "8 min read",
+    image: "/blog/channel-letters-storefront.jpg",
   },
 ];
 
@@ -87,10 +93,15 @@ export default function BlogPage() {
                   key={post.slug}
                   className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
                 >
-                  {/* Placeholder for featured image */}
-                  <div className="h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">Featured Image</span>
-                  </div>
+                  <Link href={`/blog/${post.slug}`} className="block relative h-48">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Link>
                   <div className="p-6">
                     <div className="flex items-center gap-3 mb-3">
                       <span 
