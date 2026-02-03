@@ -28,7 +28,7 @@ export default function Header() {
             <a href="/" className="hover:text-gray-200 transition-colors font-medium">Home</a>
             <a href="/products" className="hover:text-gray-200 transition-colors font-medium">Products</a>
             <a href="/#about" className="hover:text-gray-200 transition-colors font-medium">About</a>
-            <a href="/#customers" className="hover:text-gray-200 transition-colors font-medium">Customers</a>
+            <a href="/blog" className="hover:text-gray-200 transition-colors font-medium">Blog</a>
             <a 
               href="/contact" 
               className="btn btn-primary"
@@ -78,7 +78,7 @@ export default function Header() {
               <a href="/" className="hover:text-gray-200 transition-colors font-medium" onClick={() => setMobileMenuOpen(false)}>Home</a>
               <a href="/products" className="hover:text-gray-200 transition-colors font-medium" onClick={() => setMobileMenuOpen(false)}>Products</a>
               <a href="/#about" className="hover:text-gray-200 transition-colors font-medium" onClick={() => setMobileMenuOpen(false)}>About</a>
-              <a href="/#customers" className="hover:text-gray-200 transition-colors font-medium" onClick={() => setMobileMenuOpen(false)}>Customers</a>
+              <a href="/blog" className="hover:text-gray-200 transition-colors font-medium" onClick={() => setMobileMenuOpen(false)}>Blog</a>
               <a 
                 href="/contact" 
                 className="btn btn-primary w-fit"
