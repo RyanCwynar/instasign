@@ -94,3 +94,69 @@ h1, h2, h3, h4, h5, h6 {
 .btn-red:hover {
   background-color: #dc2626;
 }
+
+/* Blog Post Prose Styles */
+.prose h2 {
+  color: #111827;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #c05555;
+  padding-bottom: 0.5rem;
+}
+
+.prose h3 {
+  color: #1f2937;
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  color: #374151;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.prose p.lead {
+  font-size: 1.25rem;
+  color: #1f2937;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  border-left: 4px solid #c05555;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.prose strong {
+  color: #111827;
+}
+
+.prose a {
+  color: #c05555;
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: #a04545;
+}

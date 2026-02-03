@@ -28,6 +28,15 @@ function getServicePages(): string[] {
   return pages;
 }
 
+// Blog post slugs - keep in sync with app/blog/[slug]/page.tsx
+const blogSlugs = [
+  "how-much-do-custom-signs-cost-palm-beach",
+  "best-materials-outdoor-signs-florida-weather",
+  "vehicle-wrap-vs-paint-business-advertising",
+  "ada-compliant-signage-requirements-florida",
+  "channel-letter-signs-business-storefront",
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://instasign.com";
   
@@ -35,6 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: baseUrl, priority: 1 },
     { url: `${baseUrl}/products`, priority: 0.9 },
     { url: `${baseUrl}/contact`, priority: 0.8 },
+    { url: `${baseUrl}/blog`, priority: 0.8 },
   ];
 
   const servicePages = getServicePages().map((page) => ({
@@ -42,7 +52,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...servicePages].map((page) => ({
+  const blogPages = blogSlugs.map((slug) => ({
+    url: `${baseUrl}/blog/${slug}`,
+    priority: 0.6,
+  }));
+
+  return [...staticPages, ...servicePages, ...blogPages].map((page) => ({
     ...page,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

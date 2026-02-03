@@ -1086,55 +1086,6 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         <article className="py-16">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto prose prose-lg prose-gray">
-              <style jsx global>{`
-                .prose h2 {
-                  color: #111827;
-                  font-size: 1.75rem;
-                  font-weight: 700;
-                  margin-top: 2.5rem;
-                  margin-bottom: 1rem;
-                  border-bottom: 2px solid #c05555;
-                  padding-bottom: 0.5rem;
-                }
-                .prose h3 {
-                  color: #1f2937;
-                  font-size: 1.35rem;
-                  font-weight: 600;
-                  margin-top: 2rem;
-                  margin-bottom: 0.75rem;
-                }
-                .prose p {
-                  color: #374151;
-                  line-height: 1.8;
-                  margin-bottom: 1.25rem;
-                }
-                .prose p.lead {
-                  font-size: 1.25rem;
-                  color: #1f2937;
-                  font-weight: 500;
-                  line-height: 1.7;
-                  margin-bottom: 2rem;
-                  padding-left: 1.5rem;
-                  border-left: 4px solid #c05555;
-                }
-                .prose ul, .prose ol {
-                  margin-bottom: 1.5rem;
-                }
-                .prose li {
-                  color: #374151;
-                  margin-bottom: 0.5rem;
-                }
-                .prose strong {
-                  color: #111827;
-                }
-                .prose a {
-                  color: #c05555;
-                  text-decoration: underline;
-                }
-                .prose a:hover {
-                  color: #a04545;
-                }
-              `}</style>
               {post.content}
             </div>
           </div>
