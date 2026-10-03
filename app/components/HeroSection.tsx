@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import ContactModal from "./ContactModal";
 import LocationMapModal from "./LocationMapModal";
+import SignChat from "./SignChat";
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center">
+    <section id="home" className="relative min-h-[600px] md:min-h-[760px] flex items-center justify-center py-12 md:py-16">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -27,10 +27,10 @@ export default function HeroSection() {
               Since 1986
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-2 leading-tight !text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-2 leading-tight !text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
             We Make Great Signs
           </h1>
-          <p className="text-2xl md:text-3xl lg:text-4xl font-medium mb-6 !text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center gap-2">
+          <p className="text-xl md:text-2xl lg:text-3xl font-medium mb-6 !text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center gap-2">
             in Palm Beach County
             <LocationMapModal position="bottom-left">
               <button 
@@ -48,19 +48,13 @@ export default function HeroSection() {
               </button>
             </LocationMapModal>
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
-              href="/products" 
-              className="btn btn-primary"
-            >
-              Browse Products
-            </Link>
-            <ContactModal>
-              <button className="btn btn-white cursor-pointer">
-                Get a Quote
-              </button>
-            </ContactModal>
-          </div>
+          <SignChat />
+          <p className="mt-4 text-sm !text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+            Prefer to talk to a person? Call{" "}
+            <a href="tel:+15616857335" className="font-semibold underline underline-offset-2">(561) 685-7335</a>{" "}
+            or{" "}
+            <Link href="/products" className="font-semibold underline underline-offset-2">browse our products</Link>.
+          </p>
         </div>
       </div>
     </section>

@@ -47,6 +47,34 @@ The site uses programmatic SEO to generate location-specific service pages. Page
 
 **Locations:** Delray Beach, Boca Raton, Boynton Beach, West Palm Beach, Lake Worth, Wellington, Jupiter, Palm Beach Gardens
 
+## Homepage Sign Assistant (chat → quote → Stripe checkout)
+
+The homepage hero is a chat assistant (Claude) that asks what sign the customer needs, takes images / PDFs / pasted screenshots, prices the job, and lets them pay with Stripe Checkout.
+
+| File | Purpose |
+| --- | --- |
+| `lib/pricing.ts` | Pricing engine. **All prices live in the `PRICING` object.** Tune them here. |
+| `lib/signbot.ts` | Assistant system prompt, shop policies, and tool definitions |
+| `app/components/SignChat.tsx` | Chat UI in the hero |
+| `app/api/chat/route.ts` | Streams the conversation; runs the `calculate_quote` / `request_custom_quote` tools |
+| `app/api/upload/route.ts` | Uploads customer files (Anthropic Files API, plus Vercel Blob if configured) |
+| `app/api/checkout/route.ts` | Re-prices the quote server-side and creates a Stripe Checkout session |
+| `app/order/success/page.tsx` | Post-payment confirmation page |
+
+The assistant never invents prices: it can only quote what `calculateQuote()` returns, and checkout recalculates the price on the server, so the browser can't change what gets charged. Channel letters, monuments, wraps, illuminated and oversized work go to `request_custom_quote` and become a lead instead of an online order.
+
+### Environment variables (set in Vercel)
+
+| Variable | Required | Notes |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` | yes | Claude API key |
+| `STRIPE_SECRET_KEY` | yes | `sk_live_...` / `sk_test_...` |
+| `NEXT_PUBLIC_SITE_URL` | recommended | e.g. `https://instasign.com`, used for Stripe return URLs |
+| `BLOB_READ_WRITE_TOKEN` | recommended | Vercel Blob. Saves customer artwork so the shop can download it; links are added to the Stripe payment's metadata |
+| `LEAD_WEBHOOK_URL` | optional | Custom-quote leads are POSTed here as JSON with a `text` field (works with Slack incoming webhooks, Zapier, Make) |
+
+Paid orders show up in the Stripe dashboard. Each line item carries the sign specs, and the session metadata holds the production notes (`project_summary_*`), artwork links (`artwork_*`) and the exact quote input (`quote_request_*`).
+
 ## Tech Stack
 
 - **Framework:** Next.js 16 (App Router)
