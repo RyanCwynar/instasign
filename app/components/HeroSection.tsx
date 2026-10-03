@@ -1,69 +1,68 @@
 import Image from "next/image";
 import Link from "next/link";
-import ContactModal from "./ContactModal";
-import LocationMapModal from "./LocationMapModal";
+import { ArrowRight } from "./Icons";
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center">
-      {/* Background Image with Overlay */}
+    <section id="home" className="relative overflow-hidden bg-ink text-white">
+      {/* Background image with a left-side scrim so the copy stays readable */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/hero-bg.jpg"
-          alt="InstaSIGN Workshop"
+          alt=""
           fill
           priority
-          className="object-cover"
-          quality={90}
+          className="object-cover object-[60%_50%]"
+          quality={85}
         />
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,17,29,0.9)_0%,rgba(8,17,29,0.72)_42%,rgba(8,17,29,0.2)_75%,rgba(8,17,29,0.05)_100%)] max-md:bg-none max-md:bg-[rgba(8,17,29,0.72)]" />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 text-center w-full px-6">
-        <div className="container max-w-5xl mx-auto">
-          <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-              Since 1986
-            </span>
+      <div className="relative z-10 max-w-[1240px] mx-auto px-6 pt-20 pb-20 md:pt-28 md:pb-24 min-h-[520px] flex items-center">
+        <div className="max-w-[640px]">
+          <div className="eyebrow inline-flex gap-2.5 items-center text-[#9fb4cc] mb-6">
+            <span className="w-7 h-[3px] bg-brand-red inline-block" />
+            Palm Beach County sign makers
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-2 leading-tight !text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
-            We Make Great Signs
+          <h1 className="display text-5xl sm:text-6xl lg:text-[5.75rem] !leading-[0.95] !font-[850] mb-6 [font-stretch:112%]">
+            We make
+            <br />
+            great signs.
           </h1>
-          <p className="text-2xl md:text-3xl lg:text-4xl font-medium mb-6 !text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center gap-2">
-            in Palm Beach County
-            <LocationMapModal position="bottom-left">
-              <button 
-                className="inline-flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
-                aria-label="View location on map"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  fill="currentColor" 
-                  className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
-                >
-                  <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </LocationMapModal>
+          <p className="text-lg md:text-xl leading-relaxed text-[#c9d3df] max-w-[34rem] mb-9">
+            Storefronts, vehicles, banners and everything in between — designed,
+            built and installed by the same local team since 1986.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
-              href="/products" 
-              className="btn btn-primary"
-            >
-              Browse Products
+          <div className="flex flex-wrap gap-3.5 mb-12">
+            <Link href="/quote" className="btn btn-primary text-[17px] px-7 py-4">
+              Get a free quote
+              <ArrowRight />
             </Link>
-            <ContactModal>
-              <button className="btn btn-white cursor-pointer">
-                Get a Quote
-              </button>
-            </ContactModal>
+            <Link href="/products" className="btn btn-ghost text-[17px] px-7 py-4">
+              Browse products
+            </Link>
           </div>
+          <dl className="flex flex-wrap gap-7 pt-7 border-t border-white/15">
+            <div>
+              <dt className="sr-only">Founded</dt>
+              <dd className="display text-[32px] leading-none">1986</dd>
+              <dd className="text-sm text-[#9fb4cc] mt-1.5">Making signs since</dd>
+            </div>
+            <div>
+              <dt className="sr-only">Rating</dt>
+              <dd className="display text-[32px] leading-none text-[#f5b700]" aria-label="Five stars">
+                ★★★★★
+              </dd>
+              <dd className="text-sm text-[#9fb4cc] mt-1.5">From Google reviewers</dd>
+            </div>
+            <div>
+              <dt className="sr-only">Service</dt>
+              <dd className="display text-[32px] leading-none">In-house</dd>
+              <dd className="text-sm text-[#9fb4cc] mt-1.5">Design, print &amp; install</dd>
+            </div>
+          </dl>
         </div>
       </div>
     </section>
   );
 }
-
