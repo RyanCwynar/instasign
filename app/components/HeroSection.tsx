@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "./Icons";
+import SignChat from "./SignChat";
 
 export default function HeroSection() {
   return (
@@ -18,26 +18,34 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,17,29,0.9)_0%,rgba(8,17,29,0.72)_42%,rgba(8,17,29,0.2)_75%,rgba(8,17,29,0.05)_100%)] max-md:bg-none max-md:bg-[rgba(8,17,29,0.72)]" />
       </div>
 
-      <div className="relative z-10 max-w-[1240px] mx-auto px-6 pt-20 pb-20 md:pt-28 md:pb-24 min-h-[520px] flex items-center">
-        <div className="max-w-[640px]">
+      <div className="relative z-10 max-w-[1240px] mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-x-12 lg:gap-y-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] items-center">
+        {/* Mobile order: headline, chat, then the secondary actions. Desktop: copy left, chat right. */}
+        <div className="max-w-[640px] lg:col-start-1 lg:row-start-1 lg:self-end">
           <div className="eyebrow inline-flex gap-2.5 items-center text-[#9fb4cc] mb-6">
             <span className="w-7 h-[3px] bg-brand-red inline-block" />
             Palm Beach County sign makers
           </div>
-          <h1 className="display text-5xl sm:text-6xl lg:text-[5.75rem] !leading-[0.95] !font-[850] mb-6 [font-stretch:112%]">
+          <h1 className="display text-5xl sm:text-6xl xl:text-[5.25rem] !leading-[0.95] !font-[850] mb-6 [font-stretch:112%]">
             We make
             <br />
             great signs.
           </h1>
-          <p className="text-lg md:text-xl leading-relaxed text-[#c9d3df] max-w-[34rem] mb-9">
+          <p className="text-lg md:text-xl leading-relaxed text-[#c9d3df] max-w-[34rem] mb-0 lg:mb-9">
             Storefronts, vehicles, banners and everything in between — designed,
-            built and installed by the same local team since 1986.
+            built and installed by the same local team since 1986. Tell our sign
+            assistant what you need and get a price you can order right now.
           </p>
+        </div>
+
+        <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2">
+          <SignChat />
+        </div>
+
+        <div className="max-w-[640px] lg:col-start-1 lg:row-start-2 lg:self-start">
           <div className="flex flex-wrap gap-3.5 mb-12">
-            <Link href="/quote" className="btn btn-primary text-[17px] px-7 py-4">
-              Get a free quote
-              <ArrowRight />
-            </Link>
+            <a href="tel:+15616857335" className="btn btn-ghost text-[17px] px-7 py-4">
+              Call (561) 685-7335
+            </a>
             <Link href="/products" className="btn btn-ghost text-[17px] px-7 py-4">
               Browse products
             </Link>
