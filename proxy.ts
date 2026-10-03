@@ -6,7 +6,7 @@ const BLOCKED_COUNTRIES = [
   'IN', // India
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Get country from Vercel's geo headers (geo object removed in Next.js 16)
   const country = request.headers.get('x-vercel-ip-country') || '';
 
