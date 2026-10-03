@@ -1,7 +1,8 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { PRICING, describeCatalog } from "./pricing";
 
-export const SIGNBOT_MODEL = "claude-opus-5-5";
+/** AI Gateway model id (provider/model). */
+export const SIGNBOT_MODEL = "anthropic/claude-opus-5.5";
 
 /** Shop policies the assistant may quote to customers. Edit these to match how the shop actually runs. */
 export const SHOP_POLICIES = [
@@ -87,7 +88,7 @@ const lineItemJsonSchema = {
   },
 } as const;
 
-export const TOOLS: Anthropic.Beta.BetaTool[] = [
+export const TOOLS: Anthropic.Tool[] = [
   {
     name: "calculate_quote",
     description:

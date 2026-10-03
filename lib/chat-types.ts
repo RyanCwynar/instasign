@@ -4,13 +4,14 @@ export const ALLOWED_UPLOAD_TYPES = ["image/png", "image/jpeg", "image/gif", "im
 /** Vercel serverless functions reject request bodies over 4.5 MB. */
 export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 
+/** Customer files live in Vercel Blob; the chat route fetches them and sends the bytes to Claude. */
+export const MAX_ATTACHMENTS_PER_CONVERSATION = 10;
+
 export interface ChatAttachment {
-  /** Anthropic Files API id. */
-  fileId: string;
+  /** Public Vercel Blob URL (random suffix, so it isn't guessable). */
+  url: string;
   name: string;
   mediaType: (typeof ALLOWED_UPLOAD_TYPES)[number];
-  /** Public URL for the shop's records, when Vercel Blob storage is configured. */
-  url?: string;
 }
 
 export interface ChatMessage {

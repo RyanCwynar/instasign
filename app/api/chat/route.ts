@@ -1,8 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { calculateQuote, PricingError, QuoteRequestSchema } from "@/lib/pricing";
 import { SIGNBOT_MODEL, SYSTEM_PROMPT, TOOLS } from "@/lib/signbot";
+import { getGatewayClient } from "@/lib/ai-gateway";
 import {
   ALLOWED_UPLOAD_TYPES,
+  MAX_ATTACHMENTS_PER_CONVERSATION,
+  MAX_UPLOAD_BYTES,
+  type ChatAttachment,
   type ChatMessage,
   type ChatRequestBody,
   type ChatStreamEvent,
@@ -12,41 +16,60 @@ import {
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const anthropic = new Anthropic();
-
 const MAX_MESSAGES = 60;
 const MAX_TEXT_CHARS = 4000;
 const MAX_ATTACHMENTS_PER_MESSAGE = 6;
 const MAX_TOOL_ROUNDS = 5;
-const FILE_ID_RE = /^file_[A-Za-z0-9_-]{8,}$/;
+
+/** Only fetch attachments from our own Vercel Blob store, never arbitrary URLs. */
+function isBlobUrl(raw: string): boolean {
+  try {
+    const url = new URL(raw);
+    return url.protocol === "https:" && url.hostname.endsWith(".public.blob.vercel-storage.com");
+  } catch {
+    return false;
+  }
+}
 
 function badRequest(message: string) {
   return Response.json({ error: message }, { status: 400 });
 }
 
+/** Download an uploaded file from Blob and turn it into an image or PDF content block. */
+async function attachmentBlock(a: ChatAttachment): Promise<Anthropic.ContentBlockParam> {
+  const res = await fetch(a.url);
+  if (!res.ok) throw new Error(`Couldn't load ${a.name}`);
+  const bytes = Buffer.from(await res.arrayBuffer());
+  if (bytes.length > MAX_UPLOAD_BYTES) throw new Error(`${a.name} is too large`);
+  const data = bytes.toString("base64");
+  if (a.mediaType === "application/pdf") {
+    return { type: "document", source: { type: "base64", media_type: "application/pdf", data }, title: a.name };
+  }
+  return { type: "image", source: { type: "base64", media_type: a.mediaType, data } };
+}
+
 /** Turn the browser's chat transcript into Messages API turns. */
-function toApiMessages(history: ChatMessage[]): Anthropic.Beta.BetaMessageParam[] {
-  return history.map((m) => {
-    if (m.role === "assistant") {
-      return { role: "assistant", content: m.text || "(no reply)" };
-    }
-    const content: Anthropic.Beta.BetaContentBlockParam[] = [];
-    for (const a of m.attachments ?? []) {
-      if (a.mediaType === "application/pdf") {
-        content.push({ type: "document", source: { type: "file", file_id: a.fileId }, title: a.name });
-      } else {
-        content.push({ type: "image", source: { type: "file", file_id: a.fileId } });
+async function toApiMessages(history: ChatMessage[]): Promise<Anthropic.MessageParam[]> {
+  return Promise.all(
+    history.map(async (m): Promise<Anthropic.MessageParam> => {
+      if (m.role === "assistant") {
+        return { role: "assistant", content: m.text || "(no reply)" };
       }
-    }
-    content.push({ type: "text", text: m.text || "(see attached)" });
-    return { role: "user", content };
-  });
+      const content: Anthropic.ContentBlockParam[] = await Promise.all((m.attachments ?? []).map(attachmentBlock));
+      content.push({ type: "text", text: m.text || "(see attached)" });
+      return { role: "user", content };
+    }),
+  );
 }
 
 function validate(body: ChatRequestBody): string | null {
   if (!Array.isArray(body.messages) || body.messages.length === 0) return "No messages.";
   if (body.messages.length > MAX_MESSAGES) return "This conversation is too long. Please call us at (561) 685-7335.";
   if (body.messages[0].role !== "user" || body.messages.at(-1)?.role !== "user") return "Malformed conversation.";
+  const totalAttachments = body.messages.reduce((n, m) => n + (m.attachments?.length ?? 0), 0);
+  if (totalAttachments > MAX_ATTACHMENTS_PER_CONVERSATION) {
+    return `Please keep it to ${MAX_ATTACHMENTS_PER_CONVERSATION} files per conversation, or email artwork to bill@instasign.com.`;
+  }
   for (const m of body.messages) {
     if (m.role !== "user" && m.role !== "assistant") return "Malformed conversation.";
     if (typeof m.text !== "string" || m.text.length > MAX_TEXT_CHARS) return "Message too long.";
@@ -54,7 +77,7 @@ function validate(body: ChatRequestBody): string | null {
     if (m.role === "assistant" && atts.length) return "Malformed conversation.";
     if (atts.length > MAX_ATTACHMENTS_PER_MESSAGE) return "Too many attachments in one message.";
     for (const a of atts) {
-      if (!FILE_ID_RE.test(a.fileId) || !(ALLOWED_UPLOAD_TYPES as readonly string[]).includes(a.mediaType)) {
+      if (!isBlobUrl(a.url) || !(ALLOWED_UPLOAD_TYPES as readonly string[]).includes(a.mediaType)) {
         return "Invalid attachment.";
       }
     }
@@ -68,7 +91,7 @@ async function sendLead(lead: CustomQuoteState, transcript: ChatMessage[]) {
     console.log("custom quote lead (set LEAD_WEBHOOK_URL to forward these):", lead);
     return;
   }
-  const files = transcript.flatMap((m) => m.attachments ?? []).map((a) => a.url ?? a.name);
+  const files = transcript.flatMap((m) => m.attachments ?? []).map((a) => a.url);
   await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -81,9 +104,6 @@ async function sendLead(lead: CustomQuoteState, transcript: ChatMessage[]) {
 }
 
 export async function POST(req: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return Response.json({ error: "The sign assistant isn't configured yet." }, { status: 503 });
-  }
   let body: ChatRequestBody;
   try {
     body = await req.json();
@@ -93,17 +113,29 @@ export async function POST(req: Request) {
   const problem = validate(body);
   if (problem) return badRequest(problem);
 
-  const messages = toApiMessages(body.messages);
+  const anthropic = await getGatewayClient();
+  if (!anthropic) {
+    return Response.json({ error: "The sign assistant isn't configured yet." }, { status: 503 });
+  }
+
+  let messages: Anthropic.MessageParam[];
+  try {
+    messages = await toApiMessages(body.messages);
+  } catch (err) {
+    return badRequest(`${(err as Error).message}. Please re-attach it.`);
+  }
 
   // Remind the model what the customer is currently looking at, re-priced here rather than trusted from the client.
+  // It rides on the newest user turn as an extra text block, since history is rebuilt on every request.
   const current = body.quoteRequest ? QuoteRequestSchema.safeParse(body.quoteRequest) : null;
   if (current?.success) {
     try {
       const q = calculateQuote(current.data);
-      messages.push({
-        role: "system",
-        content: `The customer is currently looking at this quote (total ${q.totalCents} cents). Its calculate_quote input was:\n${JSON.stringify({ ...current.data, project_summary: body.projectSummary ?? "" })}`,
-      } as Anthropic.Beta.BetaMessageParam);
+      const last = messages[messages.length - 1];
+      (last.content as Anthropic.ContentBlockParam[]).unshift({
+        type: "text",
+        text: `[Context from the website, not typed by the customer: they are currently looking at a quote totaling ${q.totalCents} cents. Its calculate_quote input was: ${JSON.stringify({ ...current.data, project_summary: body.projectSummary ?? "" })}]`,
+      });
     } catch {
       // A stale quote that no longer prices is simply not mentioned.
     }
@@ -116,11 +148,10 @@ export async function POST(req: Request) {
 
       try {
         for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
-          const response = anthropic.beta.messages.stream({
+          const response = anthropic.messages.stream({
             model: SIGNBOT_MODEL,
             max_tokens: 16000,
-            betas: ["server-side-fallback-2026-07-01"],
-            fallbacks: "default",
+            thinking: { type: "adaptive" },
             output_config: { effort: "low" },
             system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
             tools: TOOLS,
@@ -138,10 +169,10 @@ export async function POST(req: Request) {
 
           messages.push({ role: "assistant", content: message.content });
 
-          const toolUses = message.content.filter((b): b is Anthropic.Beta.BetaToolUseBlock => b.type === "tool_use");
+          const toolUses = message.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
           if (message.stop_reason !== "tool_use" || toolUses.length === 0) break;
 
-          const results: Anthropic.Beta.BetaToolResultBlockParam[] = [];
+          const results: Anthropic.ToolResultBlockParam[] = [];
           for (const tool of toolUses) {
             const input = tool.input as Record<string, unknown>;
             if (tool.name === "calculate_quote") {

@@ -124,7 +124,7 @@ export default function SignChat() {
       .map((m) => ({
         role: m.role,
         text: m.text || (m.quote ? "Here's your quote." : ""),
-        attachments: m.attachments?.map(({ fileId, name, mediaType, url }) => ({ fileId, name, mediaType, url })),
+        attachments: m.attachments?.map(({ url, name, mediaType }) => ({ url, name, mediaType })),
       }));
 
     const update = (fn: (m: UiMessage) => UiMessage) =>
@@ -182,7 +182,7 @@ export default function SignChat() {
         body: JSON.stringify({
           quoteRequest: latestQuote.quote.request,
           projectSummary: latestQuote.projectSummary,
-          attachments: messages.flatMap((m) => m.attachments ?? []).map(({ fileId, name, mediaType, url }) => ({ fileId, name, mediaType, url })),
+          attachments: messages.flatMap((m) => m.attachments ?? []).map(({ url, name, mediaType }) => ({ url, name, mediaType })),
         }),
       });
       const data = await res.json();
@@ -389,11 +389,11 @@ function Bubble({
         {attachments && attachments.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-1.5">
             {attachments.map((a) =>
-              a.previewUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element -- local object URL preview
-                <img key={a.fileId} src={a.previewUrl} alt={a.name} className="w-20 h-20 object-cover rounded-lg border border-white/40" />
+              a.mediaType !== "application/pdf" ? (
+                // eslint-disable-next-line @next/next/no-img-element -- local object URL or Blob preview
+                <img key={a.url} src={a.previewUrl ?? a.url} alt={a.name} className="w-20 h-20 object-cover rounded-lg border border-white/40" />
               ) : (
-                <span key={a.fileId} className={`text-xs px-2 py-1 rounded-md ${mine ? "bg-white/20" : "bg-gray-100"}`}>
+                <span key={a.url} className={`text-xs px-2 py-1 rounded-md ${mine ? "bg-white/20" : "bg-gray-100"}`}>
                   📎 {a.name}
                 </span>
               ),
