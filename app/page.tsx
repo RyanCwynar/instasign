@@ -5,6 +5,7 @@ import ProductsSection from "./components/ProductsSection";
 import AboutSection from "./components/AboutSection";
 import CustomersSection from "./components/CustomersSection";
 import ReviewsSection from "./components/ReviewsSection";
+import ServiceAreasSection from "./components/ServiceAreasSection";
 import CTASection from "./components/CTASection";
 import Footer from "./components/Footer";
 
@@ -18,6 +19,7 @@ export default function Home() {
       <AboutSection />
       <CustomersSection />
       <ReviewsSection />
+      <ServiceAreasSection />
       <CTASection />
       <Footer />
     </div>

@@ -1,63 +1,76 @@
 import Image from "next/image";
 import Link from "next/link";
-import LocationMapModal from "./LocationMapModal";
 import SignChat from "./SignChat";
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-[600px] md:min-h-[760px] flex items-center justify-center py-12 md:py-16">
-      {/* Background Image with Overlay */}
+    <section id="home" className="relative overflow-hidden bg-ink text-white">
+      {/* Background image with a left-side scrim so the copy stays readable */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/hero-bg.jpg"
-          alt="InstaSIGN Workshop"
+          alt=""
           fill
           priority
-          className="object-cover"
-          quality={90}
+          className="object-cover object-[60%_50%]"
+          quality={85}
         />
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,17,29,0.9)_0%,rgba(8,17,29,0.72)_42%,rgba(8,17,29,0.2)_75%,rgba(8,17,29,0.05)_100%)] max-md:bg-none max-md:bg-[rgba(8,17,29,0.72)]" />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 text-center w-full px-6">
-        <div className="container max-w-5xl mx-auto">
-          <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-              Since 1986
-            </span>
+      <div className="relative z-10 max-w-[1240px] mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-24 grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-x-12 lg:gap-y-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] items-center">
+        {/* Mobile order: headline, chat, then the secondary actions. Desktop: copy left, chat right. */}
+        <div className="max-w-[640px] lg:col-start-1 lg:row-start-1 lg:self-end">
+          <div className="eyebrow inline-flex gap-2.5 items-center text-[#9fb4cc] mb-6">
+            <span className="w-7 h-[3px] bg-brand-red inline-block" />
+            Palm Beach County sign makers
           </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-2 leading-tight !text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
-            We Make Great Signs
+          <h1 className="display text-5xl sm:text-6xl xl:text-[5.25rem] !leading-[0.95] !font-[850] mb-6 [font-stretch:112%]">
+            We make
+            <br />
+            great signs.
           </h1>
-          <p className="text-xl md:text-2xl lg:text-3xl font-medium mb-6 !text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center gap-2">
-            in Palm Beach County
-            <LocationMapModal position="bottom-left">
-              <button 
-                className="inline-flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
-                aria-label="View location on map"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  fill="currentColor" 
-                  className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
-                >
-                  <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </LocationMapModal>
+          <p className="text-lg md:text-xl leading-relaxed text-[#c9d3df] max-w-[34rem] mb-0 lg:mb-9">
+            Storefronts, vehicles, banners and everything in between — designed,
+            built and installed by the same local team since 1986. Tell our sign
+            assistant what you need and get a price you can order right now.
           </p>
+        </div>
+
+        <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2">
           <SignChat />
-          <p className="mt-4 text-sm !text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-            Prefer to talk to a person? Call{" "}
-            <a href="tel:+15616857335" className="font-semibold underline underline-offset-2">(561) 685-7335</a>{" "}
-            or{" "}
-            <Link href="/products" className="font-semibold underline underline-offset-2">browse our products</Link>.
-          </p>
+        </div>
+
+        <div className="max-w-[640px] lg:col-start-1 lg:row-start-2 lg:self-start">
+          <div className="flex flex-wrap gap-3.5 mb-12">
+            <a href="tel:+15616857335" className="btn btn-ghost text-[17px] px-7 py-4">
+              Call (561) 685-7335
+            </a>
+            <Link href="/products" className="btn btn-ghost text-[17px] px-7 py-4">
+              Browse products
+            </Link>
+          </div>
+          <dl className="flex flex-wrap gap-7 pt-7 border-t border-white/15">
+            <div>
+              <dt className="sr-only">Founded</dt>
+              <dd className="display text-[32px] leading-none">1986</dd>
+              <dd className="text-sm text-[#9fb4cc] mt-1.5">Making signs since</dd>
+            </div>
+            <div>
+              <dt className="sr-only">Rating</dt>
+              <dd className="display text-[32px] leading-none text-[#f5b700]" aria-label="Five stars">
+                ★★★★★
+              </dd>
+              <dd className="text-sm text-[#9fb4cc] mt-1.5">From Google reviewers</dd>
+            </div>
+            <div>
+              <dt className="sr-only">Service</dt>
+              <dd className="display text-[32px] leading-none">In-house</dd>
+              <dd className="text-sm text-[#9fb4cc] mt-1.5">Design, print &amp; install</dd>
+            </div>
+          </dl>
         </div>
       </div>
     </section>
   );
 }
-
