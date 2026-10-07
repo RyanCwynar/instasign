@@ -1,14 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #0f172a;
-  --primary: #c85a5a;
-  --primary-hover: #b84a4a;
-  --header-blue: #111827;
-  --button-blue: #b85a5a;
-  --text-dark: #0f172a;
-  --text-gray: #64748b;
+  --background: #f4f4f1;
+  --foreground: #0e1a2b;
+  /* Brand colors, taken from the InstaSIGN logo */
+  --brand-red: #d31245;
+  --brand-red-hover: #b30e3a;
+  --brand-blue: #00529b;
+  --brand-blue-hover: #003d74;
+  --ink: #0e1a2b;
+  --ink-deep: #08111d;
+  --line: #e3e5e8;
+  --muted: #4a5668;
+  --primary: var(--brand-red);
+  --primary-hover: var(--brand-red-hover);
+  --header-blue: var(--ink);
+  --button-blue: var(--brand-blue);
+  --text-dark: var(--ink);
+  --text-gray: var(--muted);
   --text-light: #ffffff;
 }
 
@@ -19,14 +28,20 @@
   --color-primary-hover: var(--primary-hover);
   --color-header-blue: var(--header-blue);
   --color-button-blue: var(--button-blue);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-red: var(--brand-red);
+  --color-brand-blue: var(--brand-blue);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-instrument);
+  --font-display: var(--font-archivo);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: var(--font-instrument), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,61 +52,88 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
-/* Global Button Styles */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 2.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
+/* Component classes live in a layer so Tailwind utilities can override them */
+@layer components {
+  /* Wide, heavy display type for headlines */
+  .display {
+    font-family: var(--font-archivo), sans-serif;
+    font-stretch: 110%;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
 
-.btn:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
+  .eyebrow {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-.btn-primary {
-  background-color: var(--primary);
-  color: var(--text-light);
-}
+  /* Global Button Styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-}
+  .btn-primary {
+    background-color: var(--primary);
+    color: var(--text-light);
+  }
 
-.btn-blue {
-  background-color: var(--button-blue);
-  color: var(--text-light);
-}
+  .btn-primary:hover {
+    background-color: var(--primary-hover);
+  }
 
-.btn-blue:hover {
-  background-color: #a84a4a;
-}
+  .btn-blue {
+    background-color: var(--button-blue);
+    color: var(--text-light);
+  }
 
-.btn-white {
-  background-color: var(--background);
-  color: var(--header-blue);
-  border: 2px solid var(--header-blue);
-}
+  .btn-blue:hover {
+    background-color: var(--brand-blue-hover);
+  }
 
-.btn-white:hover {
-  background-color: var(--header-blue);
-  color: var(--text-light);
-}
+  .btn-white {
+    background-color: #ffffff;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
 
-.btn-red {
-  background-color: #ef4444;
-  color: var(--text-light);
-}
+  .btn-white:hover {
+    background-color: var(--ink);
+    color: var(--text-light);
+  }
 
-.btn-red:hover {
-  background-color: #dc2626;
+  /* Outline button for dark backgrounds */
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .btn-ghost:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+  }
+
+  .btn-red {
+    background-color: var(--brand-red);
+    color: var(--text-light);
+  }
+
+  .btn-red:hover {
+    background-color: var(--brand-red-hover);
+  }
 }
 
 /* Blog Post Prose Styles */
@@ -101,7 +143,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-  border-bottom: 2px solid #c05555;
+  border-bottom: 2px solid var(--brand-red);
   padding-bottom: 0.5rem;
 }
 
@@ -126,7 +168,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.7;
   margin-bottom: 2rem;
   padding-left: 1.5rem;
-  border-left: 4px solid #c05555;
+  border-left: 4px solid var(--brand-red);
 }
 
 .prose ul, .prose ol {
@@ -152,7 +194,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .prose a {
-  color: #c05555;
+  color: var(--brand-red);
   text-decoration: underline;
 }
 

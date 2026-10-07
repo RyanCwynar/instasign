@@ -1,85 +1,74 @@
 import Image from "next/image";
+import Link from "next/link";
 import LocationMapModal from "./LocationMapModal";
+
+const headingClass = "mb-3.5 text-white text-[15px] font-bold tracking-[0.06em] uppercase";
+const linkClass = "text-[#b3c0cf] hover:text-white transition-colors";
 
 export default function Footer() {
   return (
-    <footer id="contact" className="bg-gray-900 text-white py-16">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
-          <div className="md:col-span-2">
+    <footer id="contact" className="bg-ink-deep text-[#b3c0cf] text-[15px]">
+      <div className="max-w-[1240px] mx-auto px-6 pt-18 pb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+          <div>
             <Image
               src="/logo.svg"
               alt="InstaSIGN Logo"
               width={200}
               height={67}
-              className="h-12 w-auto mb-6"
+              className="h-12 w-auto mb-4"
             />
-            <p className="text-gray-400 leading-relaxed max-w-md">
-              Your trusted sign maker since 1986. Quality signs, professional service, and local expertise you can depend on.
+            <p className="leading-relaxed max-w-[280px]">
+              Your trusted sign maker since 1986. Quality signs, professional service
+              and local expertise.
             </p>
           </div>
-          <div className="relative">
-            <h3 className="text-xl font-bold mb-4">Our Location</h3>
+          <div>
+            <h3 className={headingClass}>Visit</h3>
             <LocationMapModal>
-              <p className="text-gray-400 mb-2">
-                <a 
-                  href="https://maps.google.com/?q=155+Avenue+L,+Delray+Beach,+FL+33483" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors flex items-start"
-                >
-                  <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span>155 Avenue L<br />Delray Beach, FL 33483<br />United States</span>
-                </a>
-              </p>
+              <a
+                href="https://maps.google.com/?q=155+Avenue+L,+Delray+Beach,+FL+33483"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${linkClass} leading-relaxed`}
+              >
+                155 Avenue L
+                <br />
+                Delray Beach, FL 33483
+              </a>
             </LocationMapModal>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <ul className="space-y-3">
+            <h3 className={headingClass}>Contact</h3>
+            <ul className="flex flex-col gap-2">
               <li>
-                <a 
-                  href="tel:+15616857335" 
-                  className="text-gray-400 hover:text-white transition-colors flex items-start"
-                >
-                  <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <span>+1 (561) 685-7335</span>
+                <a href="tel:+15616857335" className={linkClass}>
+                  (561) 685-7335
                 </a>
               </li>
               <li>
-                <a 
-                  href="mailto:bill@instasign.com" 
-                  className="text-gray-400 hover:text-white transition-colors flex items-start"
-                >
-                  <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <span>bill@instasign.com</span>
+                <a href="mailto:bill@instasign.com" className={linkClass}>
+                  bill@instasign.com
                 </a>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><a href="/" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
-              <li><a href="/products" className="text-gray-400 hover:text-white transition-colors">Products</a></li>
-              <li><a href="/#about" className="text-gray-400 hover:text-white transition-colors">About</a></li>
-              <li><a href="/blog" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-              <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+            <h3 className={headingClass}>Explore</h3>
+            <ul className="flex flex-col gap-2">
+              <li><Link href="/products" className={linkClass}>Products</Link></li>
+              <li><Link href="/quote" className={linkClass}>Get a quote</Link></li>
+              <li><Link href="/#about" className={linkClass}>About</Link></li>
+              <li><Link href="/blog" className={linkClass}>Blog</Link></li>
+              <li><Link href="/contact" className={linkClass}>Contact</Link></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
+        <div className="border-t border-[#1e2b3e] pt-6 flex flex-wrap gap-x-6 gap-y-2 justify-between text-sm text-[#8494a8]">
           <p>&copy; {new Date().getFullYear()} InstaSIGN. All rights reserved.</p>
+          <p>Delray Beach · Boca Raton · Boynton Beach · West Palm Beach</p>
         </div>
       </div>
     </footer>
   );
 }
-
